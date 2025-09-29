@@ -1,0 +1,46 @@
+######################################################################
+# Etapa base (runtime) - imagem leve
+######################################################################
+FROM python:3.11-slim AS runtime
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1 \
+    POETRY_VIRTUALENVS_CREATE=false \
+    PYTHONPATH=/app
+
+# Instala dependências de sistema mínimas (evitar build-essential pesado)
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends curl ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+# Copiar apenas requirements primeiro para cache de build
+COPY requirements.txt ./
+
+# Atualiza pip e instala deps (uvicorn standard já inclui extras necessários)
+RUN pip install --upgrade pip \
+    && pip install --no-cache-dir -r requirements.txt \
+    && pip install --no-cache-dir "uvicorn[standard]"
+
+# Copiar scripts necessários isoladamente para não invalidar cache cedo
+COPY clear_cache.sh ./
+RUN chmod +x clear_cache.sh && ./clear_cache.sh PRD || true
+
+# Copiar aplicação (depois de deps p/ cache eficaz)
+COPY . .
+
+# Criar usuário não-root
+RUN adduser --disabled-password --gecos '' appuser \
+    && chown -R appuser:appuser /app
+USER appuser
+
+EXPOSE 8081
+
+# Produção: sem --reload (hot reload aumenta consumo). Use variável para toggle.
+ARG ENABLE_RELOAD=false
+ENV ENABLE_RELOAD=${ENABLE_RELOAD}
+
+ENTRYPOINT ["python", "-m", "uvicorn"]
+CMD ["src.main:app", "--host", "0.0.0.0", "--port", "8081"]

@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  app:
+    env_file: ".env"
+    build:
+      context: .
+      dockerfile: Dockerfile.fastapi
+      args:
+        ENVIRONMENT: local
+    ports:
+      - "8081:8081"
+    volumes:
+      - .:/app
+    command: ["src.main:app", "--host", "0.0.0.0", "--port", "8081", "--reload"]
+    networks:
+      - network-hyperlocal
+
+networks:
+  network-hyperlocal:
+    external: true

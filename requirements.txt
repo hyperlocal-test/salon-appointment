@@ -1,0 +1,19 @@
+# Core LangGraph dependencies
+langgraph>=0.4.8,<0.5
+langchain>=0.3,<0.4
+langchain-core>=0.3,<0.4
+langchain-openai>=0.2,<0.3
+langchain_community
+
+# LangGraph SDK
+langgraph-sdk
+
+# Basic utilities
+pydantic>=2.0,<3.0
+requests
+openai
+fastapi
+uvicorn
+
+# Comprehend
+boto3

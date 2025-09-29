@@ -1,0 +1,23 @@
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.sqlite3
+*.db
+.env
+.env.*
+.git
+.gitignore
+Dockerfile*
+*.log
+.cache/
+.mypy_cache/
+.pytest_cache/
+.dist/
+build/
+dist/
+node_modules/
+.cspell-cache/
+.ipynb_checkpoints/
+# History files (kept inside container only)
+src/history/history-*.json

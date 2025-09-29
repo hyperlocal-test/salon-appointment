@@ -1,0 +1,19 @@
+version: '4'
+
+services:
+  web:
+    env_file: ".env"
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "2024:2024"
+    volumes:
+      - .:/app
+    command: ["langgraph", "dev", "--host", "0.0.0.0"]
+    networks:
+      - network-hyperlocal
+
+networks:
+  network-hyperlocal:
+    external: true
