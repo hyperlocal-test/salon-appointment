@@ -1,28 +1,6 @@
 # Hyperlocal Conversational Orchestrator
 
-Projeto base de um fluxo conversacional que## Execução (Resumo)
-
-### 1. API FastAPI (Produção)
-Este comando sobe o projeto FastAPI para ter acesso aos endpoints da API:
-```bash
-docker compose -f docker-compose-fastapi.yml up --build
-```
-
-### 2. LangGraph Playground (Desenvolvimento)
-Para utilizar o playground visual do LangGraph e testar o fluxo interativamente:
-```bash
-docker compose up --build
-```
-Acesse: http://localhost:2024
-
-### 3. Testando a API
-Enviar requisição para o endpoint de conversação:
-```bash
-curl -X POST http://localhost:8081/api/v1/conversation \
-  -H "Content-Type: application/json" \
-  -d '{"message": "Quero agendar corte amanhã às 14h"}'
-``` 
-LLM (OpenAI / LangChain / LangGraph) com um componente de NER para extração de entidades de forma incremental e persistente. A arquitetura demonstra:
+Projeto base de um fluxo conversacional que integra um LLM (OpenAI / LangChain / LangGraph) com um componente de NER para extração de entidades de forma incremental e persistente. A arquitetura demonstra:
 
 - Orquestração de diálogo usando LangGraph (estado baseado em `MessagesState`)
 - Classificação de intenção + extração de entidades (NER externa)
@@ -106,11 +84,32 @@ http://13.220.52.245/redoc
 (O endpoint interno chamado pelo orquestrador está configurado via variável `HYPERLOCAL_NER_API_URL`).
 
 ## Execução (Resumo)
-1. Construir imagem:
+
+### 1. API FastAPI (Produção)
+Este comando sobe o projeto FastAPI para ter acesso aos endpoints da API:
 ```bash
 docker compose -f docker-compose-fastapi.yml up --build
 ```
-2. Enviar requisição:
+
+### 2. LangGraph Playground (Desenvolvimento)
+Para utilizar o playground visual do LangGraph e testar o fluxo interativamente:
+```bash
+docker compose up --build
+```
+Acesse: http://localhost:2024
+
+### 3. Collection Postman (Testes de API)
+Faça o download da Collection e Environment do Postman para testar as rotas da API:
+
+- **Collection**: [Hyperlocal Conversation Collection](assets/postman/Hyperlocal%20Conversation%20API.postman_collection.json)
+- **Environment**: [Hyperlocal Conversation Enviroment](assets/postman/Hyperlocal%20Local.postman_environment.json)
+
+Com eles será possível testar facilmente todos os endpoints da API e realizar diferentes cenários de teste.
+ 
+ Guia detalhado de uso das collections e environment (importação, cenários, troubleshooting): [Guia Postman](assets/postman/README.md)
+
+### 4. Testando via cURL
+Enviar requisição direta para o endpoint de conversação:
 ```bash
 curl -X POST http://localhost:8081/api/v1/conversation \
   -H "Content-Type: application/json" \
