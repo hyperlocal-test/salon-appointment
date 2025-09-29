@@ -19,11 +19,7 @@ def start_flow(data: MessagesState) -> MessagesState:
         data['flow'] = 'end'
         return data
     
-    print("Start Flow Node - Last Message Type:", type(last_message))
-    print(last_message)
-    print("Step: ", last_message.additional_kwargs['step'])
-
-    if last_message.additional_kwargs['step'] == FLOW_GREETING:
+    if not last_message or 'step' not in last_message.additional_kwargs or last_message.additional_kwargs['step'] == FLOW_GREETING:
         data['flow'] = 'greeting'
     elif last_message.additional_kwargs['step'] == FLOW_CLASSIFIER:
         data['flow'] = 'classifier'

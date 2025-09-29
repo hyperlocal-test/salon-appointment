@@ -18,7 +18,7 @@ def time_classifier_node(data: MessagesState) -> MessagesState:
         return data
     
     content = """
-        você informou a data, más não infomou a *hora*, peço que informe a HORA para quando deseja seu serviço.
+        Você informou a data, más não infomou a *hora*, peço que informe a HORA para quando deseja seu serviço.
     """
     additional_kwargs = {
         **last_message.additional_kwargs,

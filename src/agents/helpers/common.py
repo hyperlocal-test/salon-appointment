@@ -8,7 +8,14 @@ FLOW_DATE = "DATE"
 FLOW_TIME = "TIME"
 FLOW_PROCESS_REQUEST = "PROCESS_REQUEST"
 
-INTENTS = ['Agendamento', 'Cancelamento', 'Preço', 'Localidade', 'Consulta']
+# Intent
+INTENT_CANCEL = "CANCELAR"
+INTENT_SCHEDULE = "AGENDAR"
+INTENT_PRICE = "PREÇOS"
+INTENT_LOCATION = "LOCALIZAÇÃO"
+INTENT_INQUIRY = "CONSULTA"
+
+INTENTS = ['Agendamento', 'Cancelamento', 'Preços', 'Localização', 'Consulta']
 SERVICES = ['Corte de Cabelo', 'Barba', 'Sobrancelha']
 
 def TypeGreeting() -> dict:
