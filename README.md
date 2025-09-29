@@ -21,7 +21,8 @@ Enviar requisição para o endpoint de conversação:
 curl -X POST http://localhost:8081/api/v1/conversation \
   -H "Content-Type: application/json" \
   -d '{"message": "Quero agendar corte amanhã às 14h"}'
-``` LLM (OpenAI / LangChain / LangGraph) com um componente de NER para extração de entidades de forma incremental e persistente. A arquitetura demonstra:
+``` 
+LLM (OpenAI / LangChain / LangGraph) com um componente de NER para extração de entidades de forma incremental e persistente. A arquitetura demonstra:
 
 - Orquestração de diálogo usando LangGraph (estado baseado em `MessagesState`)
 - Classificação de intenção + extração de entidades (NER externa)
