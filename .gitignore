@@ -1,0 +1,31 @@
+# compiled output
+/node_modules
+
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+.langgraph_api/
+
+# OS
+.DS_Store
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+#Arquivos Cache do Python
+__pycache__/
+
+#Ambiente Virtual
+/venv
+
+#Variaveis de Ambiente
+.env
