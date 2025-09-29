@@ -1,6 +1,27 @@
 # Hyperlocal Conversational Orchestrator
 
-Projeto base de um fluxo conversacional que integra um LLM (OpenAI / LangChain / LangGraph) com um componente de NER para extração de entidades de forma incremental e persistente. A arquitetura demonstra:
+Projeto base de um fluxo conversacional que## Execução (Resumo)
+
+### 1. API FastAPI (Produção)
+Este comando sobe o projeto FastAPI para ter acesso aos endpoints da API:
+```bash
+docker compose -f docker-compose-fastapi.yml up --build
+```
+
+### 2. LangGraph Playground (Desenvolvimento)
+Para utilizar o playground visual do LangGraph e testar o fluxo interativamente:
+```bash
+docker compose up --build
+```
+Acesse: http://localhost:2024
+
+### 3. Testando a API
+Enviar requisição para o endpoint de conversação:
+```bash
+curl -X POST http://localhost:8081/api/v1/conversation \
+  -H "Content-Type: application/json" \
+  -d '{"message": "Quero agendar corte amanhã às 14h"}'
+``` LLM (OpenAI / LangChain / LangGraph) com um componente de NER para extração de entidades de forma incremental e persistente. A arquitetura demonstra:
 
 - Orquestração de diálogo usando LangGraph (estado baseado em `MessagesState`)
 - Classificação de intenção + extração de entidades (NER externa)
@@ -128,6 +149,16 @@ LANGCHAIN_TRACING_V2=true
 ```
 
 Após isso, cada execução dos nós (LLM calls, NER chaining, classificadores) aparecerá no painel do LangSmith, permitindo depuração de prompts, latências e tokens consumidos.
+
+### Visualização do Trace List
+O painel mostra a lista de execuções com informações de tempo, tokens e custos:
+
+![LangSmith Trace List](assets/lang-smith-trace-list.png)
+
+### Detalhamento do Trace
+Clicando em um trace específico, é possível visualizar o fluxo detalhado de execução dos nós, entrada/saída de cada LLM call, e tempo de resposta:
+
+![LangSmith Trace Details](assets/lang-smith-trace-details.png)
 
 ## Licença
 Uso interno / educacional. Ajuste conforme necessidade corporativa.
