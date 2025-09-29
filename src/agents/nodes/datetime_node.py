@@ -7,11 +7,7 @@ def datetime_classifier_node(data: MessagesState) -> MessagesState:
     """Classifica a intenção do usuário baseado na mensagem."""
     last_message = data['messages'][-1] if data['messages'] else None
 
-    print("Datetime Node - Last Message Type:", type(last_message))
-    print(last_message)
-
     if isinstance(last_message, HumanMessage):
-        print("✅ Datetime Recebida.")
 
         additional_kwargs = {
             **last_message.additional_kwargs,

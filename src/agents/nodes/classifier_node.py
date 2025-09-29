@@ -22,8 +22,6 @@ def classifier_node(data: MessagesState) -> MessagesState:
         
         intent_classifier = HyperlocalNERClassifier()
         result = intent_classifier.extract_entities(user_text)
-        print("NER Result:", result)
-        print("User Text:", user_text)
 
         if result:
             service = result['entities'].get('SERVICO', {}).get('text', 'N/A')
@@ -50,13 +48,10 @@ def classifier_node(data: MessagesState) -> MessagesState:
             
             additional_kwargs['step'] = 'end'
 
-            print("Identifier:", additional_kwargs['identifier'])
-
             data['messages'].append(AIMessage(content="", additional_kwargs={**additional_kwargs}))
 
             return data
     else:
-        print(f"❌ Conteúdo inválido ou tipo não é texto: {last_human_message}")
         user_text = None
 
     data['messages'].append(AIMessage(content="Mensagem processada", additional_kwargs={'step': FLOW_INTENT, 'end': True}))

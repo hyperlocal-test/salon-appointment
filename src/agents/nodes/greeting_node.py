@@ -106,8 +106,6 @@ def greeting_identify(data: MessagesState) -> MessagesState:
         elif result['informal_greeting']:
             message_greeting = response_greeting("informal")
 
-        print(f"🤖 Gerando saudação: {message_greeting[:50]}...")
-        
         # Garantir que message_greeting não seja None ou vazio
         if not message_greeting or message_greeting.strip() == "":
             message_greeting = "Olá! Como posso ajudá-lo hoje?"
@@ -117,6 +115,5 @@ def greeting_identify(data: MessagesState) -> MessagesState:
             additional_kwargs={'step': FLOW_CLASSIFIER, 'end': False}
         )
         data['messages'].append(ai_message)
-        print(f"✅ Mensagem AI adicionada. Total: {len(data['messages'])}")
 
     return data

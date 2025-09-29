@@ -27,8 +27,6 @@ def call_hyperlocal_ner_api(text: str) -> Dict[str, Any]:
         base_url = f"{base_url}:80"
     
     api_endpoint = f"{base_url}/api/v1/ner"
-    print(f"🌐 Chamando API NER: {api_endpoint}")
-    print(f"📝 Texto para processar: '{text[:50]}{'...' if len(text) > 50 else ''}')")
     
     # Dados da requisição - verificar se API espera campos adicionais
     payload = {
@@ -37,7 +35,6 @@ def call_hyperlocal_ner_api(text: str) -> Dict[str, Any]:
     
     # Validar entrada antes de enviar
     if not text or not isinstance(text, str):
-        print(f"❌ Texto inválido: '{text}' (tipo: {type(text)})")
         return {
             "error": "invalid_input",
             "message": "Texto deve ser uma string não vazia",
@@ -47,7 +44,6 @@ def call_hyperlocal_ner_api(text: str) -> Dict[str, Any]:
     # Limpar texto - remover caracteres problemáticos
     text = text.strip()
     if len(text) == 0:
-        print(f"❌ Texto vazio após limpeza")
         return {
             "error": "empty_text",
             "message": "Texto vazio após limpeza",
@@ -56,7 +52,6 @@ def call_hyperlocal_ner_api(text: str) -> Dict[str, Any]:
     
     # Verificar tamanho máximo (assumindo limite de 1000 caracteres)
     if len(text) > 1000:
-        print(f"⚠️ Texto muito longo ({len(text)} chars), truncando...")
         text = text[:1000]
     
     # Headers da requisição
@@ -65,9 +60,7 @@ def call_hyperlocal_ner_api(text: str) -> Dict[str, Any]:
         "Content-Type": "application/json"
     }
     
-    try:        
-        print(f"📡 Enviando requisição para: {api_endpoint}")
-        print(f"📦 Payload: {json.dumps(payload, ensure_ascii=False)}")
+    try:
         
         # Fazer a requisição POST
         response = requests.post(
@@ -76,9 +69,6 @@ def call_hyperlocal_ner_api(text: str) -> Dict[str, Any]:
             json=payload,
             timeout=30  # Timeout de 30 segundos
         )
-        
-        print(f"📨 Status da resposta: {response.status_code}")
-        print(f"📄 Resposta: {response.text[:200]}...")
         
         # Verificar se a requisição foi bem-sucedida
         response.raise_for_status()
@@ -89,7 +79,6 @@ def call_hyperlocal_ner_api(text: str) -> Dict[str, Any]:
         return result
         
     except requests.exceptions.ConnectionError:
-        print(f"❌ Erro de conexão com a API NER em {api_endpoint}")
         return {
             "error": "connection_error",
             "message": "Não foi possível conectar com a API NER",
@@ -97,7 +86,6 @@ def call_hyperlocal_ner_api(text: str) -> Dict[str, Any]:
         }
         
     except requests.exceptions.Timeout:
-        print(f"⏰ Timeout na chamada da API NER")
         return {
             "error": "timeout_error", 
             "message": "API NER não respondeu no tempo esperado",
@@ -105,18 +93,11 @@ def call_hyperlocal_ner_api(text: str) -> Dict[str, Any]:
         }
         
     except requests.exceptions.HTTPError as e:
-        print(f"❌ Erro HTTP na API NER: {e}")
-        print(f"📄 Status Code: {response.status_code}")
-        print(f"📄 Resposta completa: {response.text}")
-        print(f"📋 Headers enviados: {headers}")
-        print(f"📋 Payload enviado: {json.dumps(payload, ensure_ascii=False)}")
-        
         # Tentar parsear erro da API se for JSON
         try:
             error_detail = response.json()
-            print(f"🔍 Detalhes do erro da API: {json.dumps(error_detail, indent=2, ensure_ascii=False)}")
         except:
-            print("🔍 Resposta da API não é JSON válido")
+            error_detail = None
         
         return {
             "error": "http_error",
@@ -127,8 +108,6 @@ def call_hyperlocal_ner_api(text: str) -> Dict[str, Any]:
         }
         
     except json.JSONDecodeError:
-        print(f"❌ Erro ao decodificar JSON da API NER")
-        print(f"📄 Resposta raw: {response.text}")
         return {
             "error": "json_decode_error",
             "message": "Resposta da API NER não é um JSON válido",
@@ -136,7 +115,6 @@ def call_hyperlocal_ner_api(text: str) -> Dict[str, Any]:
         }
         
     except Exception as e:
-        print(f"❌ Erro inesperado na API NER: {e}")
         return {
             "error": "unexpected_error",
             "message": f"Erro inesperado: {str(e)}",
@@ -159,11 +137,9 @@ def extract_entities_async(text: str) -> Optional[Dict[str, Any]]:
         
         # Verificar se houve erro
         if "error" in result:
-            print(f"⚠️ API NER retornou erro: {result['message']}")
             return None
             
         return result
         
     except Exception as e:
-        print(f"❌ Erro na extração assíncrona: {e}")
         return None

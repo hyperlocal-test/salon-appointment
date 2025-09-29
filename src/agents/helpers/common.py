@@ -100,7 +100,6 @@ def filter_field_entities(entities, field: str) -> str:
     
     # Se não for nem dict nem list
     else:
-        print(f"❌ Erro: entities deve ser uma lista ou dicionário, recebido: {type(entities)}")
         return 'N/A'
 
 
